@@ -1,7 +1,7 @@
 package com.eteks.test;
 
 public class BuildingCode_AU implements BuildingCode{
-	// Constants related to Australian Standards for stairs
+	// Values related to Australian Standards for stairs
 	// National Construction Code 2016 - Building Code of Australia (for Class 2 to 9 buildings)
 	// Australian Standard AS1657-2018 - https://www.stepform.com.au/as1675-2018/stairs-detail.html
 	static boolean accessibleStair = false;    // Required Stairway (public use etc.) use _Acc if true

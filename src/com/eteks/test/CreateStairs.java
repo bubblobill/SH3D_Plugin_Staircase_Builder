@@ -97,8 +97,6 @@ public class CreateStairs extends Plugin {
 				}	
 			}
 		}
-		
-		
 	}
 
 	@Override
@@ -106,49 +104,6 @@ public class CreateStairs extends Plugin {
 		return new PluginAction [] {new dynamicStairsAction()}; 
 	}
 	
-	
-	// Stolen from ShapeGeneratorPlugin for inspiration
-	/**
-	* Adds to home a new piece of furniture based on the given model.
-	*/
-	private void addNewPieceOfFurniture(final Content modelContent, 
-	                                      final String shapeName,
-	                                      final float x,
-	                                      final float y,
-	                                      final float elevation,
-	                                      final ResourceBundle resource) {
-	    	ModelManager.getInstance().loadModel(modelContent, new ModelManager.ModelObserver() {
-	        public void modelUpdated(BranchGroup modelRoot) {
-	          Vector3f size = ModelManager.getInstance().getSize(modelRoot);
-	          Content iconContent = new ResourceURLContent(ShapeGeneratorPlugin.class, "shape.png");
-	          HomePieceOfFurniture piece = new HomePieceOfFurniture(new CatalogPieceOfFurniture(
-	                null, shapeName, null, iconContent, modelContent, 
-	                size.x, size.z, size.y, 
-	                0, true, null, System.getProperty("user.name"), true, null, null));
-	          piece.setX(x);
-	          piece.setY(y);
-	          piece.setElevation(elevation);
-	          
-	          UndoableEditSupport undoSupport = getUndoableEditSupport();
-	          undoSupport.beginUpdate();
-	          getHomeController().getFurnitureController().addFurniture(Arrays.asList(new HomePieceOfFurniture [] {piece}));
-	          undoSupport.postEdit(new AbstractUndoableEdit() {      
-	              @Override
-	              public String getPresentationName() {
-	                return resource.getString("undoGenerateShape");
-	              }      
-	            });
-	         
-	          // End compound edit
-	          undoSupport.endUpdate();
-	        }
-	        
-	        public void modelError(Exception ex) {
-	          // Shouldn't happen since we import a model we just exported
-	        }
-	      });
-	  }
-
 }
 
 /*
