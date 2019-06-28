@@ -13,6 +13,7 @@ import com.eteks.sweethome3d.plugin.Plugin;
 import com.eteks.sweethome3d.plugin.PluginAction;
 import com.eteks.test.Staircase.Flight;
 import com.eteks.test.Staircase.Step;
+// NOTE: All dimensions are in centimeters
 
 public class CreateStairs extends Plugin {
 	public class dynamicStairsAction extends PluginAction {
@@ -34,12 +35,28 @@ public class CreateStairs extends Plugin {
 			
 			// set building code requirements for country
 			setBuildingCode();
-			// initialise staircase with building code stuff
+			// initialise staircase with building code values. Default height is currently selected level of home
 			staircase = new Staircase(bCode, level.getFloorThickness() + level.getHeight());
 
+			// open dialog for user to design staircase
+			staircaseDesignPanel();
+
+			// build staircase as wavefront object
+			buildStaircase();
+
+			// import object as furniture
+			
+		}
+
+		private void staircaseDesignPanel() {
+			//TODO: panel prompting user for staircase design
+			// how many levels etc
+
+			// This is a test case for a function that tests the slope is within limits
 			Flight flight = staircase.flights.get(0);			
 			checkSlope(flight);
 
+			// update staircase
 		}
 
 		private boolean checkSlope(Flight flight) {
@@ -71,9 +88,11 @@ public class CreateStairs extends Plugin {
 			}
 		}
 		
-		private void createpof() {
+		private void buildStaircase() {
+			//TODO: all of this
 			setStaircaseCutOutShape();
 		}
+		
 		
 	}
 
