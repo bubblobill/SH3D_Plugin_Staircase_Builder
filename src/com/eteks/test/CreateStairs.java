@@ -14,11 +14,10 @@ import com.eteks.sweethome3d.plugin.PluginAction;
 import com.eteks.test.Staircase.Flight;
 import com.eteks.test.Staircase.Step;
 
+// NOTE: All dimension are in centimeters
+
 public class CreateStairs extends Plugin {
 	public class dynamicStairsAction extends PluginAction {
-
-		public BuildingCode bCode; // Building code parameters, varies by location, set in setBuildingCode
-		public Staircase staircase; // Defines the actual staircase
 
 		public dynamicStairsAction() {
 			putPropertyValue(Property.NAME, "Create Stairs");
@@ -27,19 +26,38 @@ public class CreateStairs extends Plugin {
 			setEnabled(true);
 		}
 
+		public BuildingCode bCode; // Building code parameters, varies by location, set in setBuildingCode
+		public Staircase staircase; // Defines the actual staircase
 		@Override
 		public void execute() {
-			Home home = getHome();
-			Level level = home.getSelectedLevel();
 			
 			// set building code requirements for country
 			setBuildingCode();
-			// initialise staircase with building code stuff
+			
+			// initialise staircase with building code values and selected home level height
+			Home home = getHome();
+			Level level = home.getSelectedLevel();
 			staircase = new Staircase(bCode, level.getFloorThickness() + level.getHeight());
 
+			// present user with staircase construction panel
+			staircaseDesign();
+
+			// build staircase as wavefront object
+			buildStaircaseObj();
+
+			// turn it into furniture
+			createStaircaseFurniture()
+		}
+
+		private void staircaseDesign() {
+			// TODO: Interface for user to construct staircase
+
+			//update staircase
+			staircase=staircase;
+
+			// sample test staircase slope is in bounds
 			Flight flight = staircase.flights.get(0);			
 			checkSlope(flight);
-
 		}
 
 		private boolean checkSlope(Flight flight) {
@@ -48,6 +66,15 @@ public class CreateStairs extends Plugin {
 			return step.rising >= bCode.minRising && step.rising <= bCode.maxRising && step.going >= bCode.minGoing
 					&& step.going <= bCode.maxGoing && 2 * step.rising + step.going >= bCode.min2RplusG
 					&& 2 * step.rising + step.going <= bCode.max2RplusG;
+		}
+
+		private void buildStaircaseObj() {
+			// TODO: construct wavefront object using staircase parameters
+		}
+
+		private void createStaircaseFurniture() {
+			// TODO: Turn Obj file into furniture and add cutouts etc.
+			setStaircaseCutOutShape();
 		}
 
 		private void setBuildingCode() {
@@ -71,9 +98,6 @@ public class CreateStairs extends Plugin {
 			}
 		}
 		
-		private void createpof() {
-			setStaircaseCutOutShape();
-		}
 		
 	}
 
