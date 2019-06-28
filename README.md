@@ -9,7 +9,8 @@ The plugin will use the detected/selected locale to load the appropriate buildin
 The restrictions on staircases change depending on building type, staircase use, and accessibility requirements.
 So far only Australian building code is included. It contains flags for the use type.
 
-Staircases have their own jargon. Here are a couple of links to help with understanding the staircase terminology and components
+Staircases have their own jargon. Here are a couple of links to help with understanding the staircase terminology and components.
+
 https://theconstructor.org/tips/components-of-staircase/7534/
 https://www.practicaldiy.com/carpentry/staircase/staircase.php
 
