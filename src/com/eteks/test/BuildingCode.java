@@ -31,8 +31,5 @@ public interface BuildingCode {
 	public double minHeightRequiringBarrier = 100; // must have a barrier if the height is exceeded
 	public double minBarrierHeight = 86.5;
 	public double minLandingBarrierHeight = 100;
-	public double minLanding = 75; // landing must be at least this long
 	public double minRiseForThresholdLanding = 570; // Threshold landing relates to staircases ending at a door
 	public int minRisersForThresholdLanding = 3;
-	public int maxWindersForQuarterLanding = 3; // Winders are turning steps
-}

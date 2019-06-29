@@ -1,8 +1,6 @@
 package com.eteks.test;
 
 import java.awt.geom.Path2D;
-import java.util.HashMap;
-import java.util.Map;
 
 // use PShape for SVG?
 import com.eteks.test.Staircase.Step;
