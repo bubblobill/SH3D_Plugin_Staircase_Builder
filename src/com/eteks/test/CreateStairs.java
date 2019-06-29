@@ -13,6 +13,7 @@ import com.eteks.sweethome3d.plugin.Plugin;
 import com.eteks.sweethome3d.plugin.PluginAction;
 import com.eteks.test.Staircase.Flight;
 import com.eteks.test.Staircase.Step;
+import com.eteks.test.StaircaseDesignUI;
 
 // NOTE: All dimension are in centimeters
 
