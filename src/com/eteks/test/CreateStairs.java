@@ -46,7 +46,7 @@ public class CreateStairs extends Plugin {
 			buildStaircaseObj();
 
 			// turn it into furniture
-			createStaircaseFurniture()
+			createStaircaseFurniture();
 		}
 
 		private void staircaseDesign() {
@@ -74,7 +74,7 @@ public class CreateStairs extends Plugin {
 
 		private void createStaircaseFurniture() {
 			// TODO: Turn Obj file into furniture and add cutouts etc.
-			setStaircaseCutOutShape();
+			//setStaircaseCutOutShape();
 		}
 
 		private void setBuildingCode() {
