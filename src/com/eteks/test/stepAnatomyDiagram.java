@@ -3,7 +3,7 @@ package com.eteks.test;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.AffineTransform;
-import java.util.Map;
+
 
 public class stepAnatomyDiagram extends Frame {
   /**
