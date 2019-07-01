@@ -1,9 +1,9 @@
-package com.eteks.test;
+package com.eteks.Staircase_Constructor;
 
 import java.awt.geom.Path2D;
 
 // use PShape for SVG?
-import com.eteks.test.Staircase.Step;
+
 
 public class Profile {
 	String name;

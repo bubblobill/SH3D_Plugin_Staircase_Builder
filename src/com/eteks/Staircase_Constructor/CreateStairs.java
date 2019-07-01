@@ -1,13 +1,14 @@
-package com.eteks.test;
+package com.eteks.Staircase_Constructor;
 
 import com.eteks.sweethome3d.model.Home;
 import com.eteks.sweethome3d.model.Level;
 import com.eteks.sweethome3d.model.PieceOfFurniture;
 import com.eteks.sweethome3d.plugin.Plugin;
 import com.eteks.sweethome3d.plugin.PluginAction;
-import com.eteks.test.Staircase.Flight;
-import com.eteks.test.Staircase.Step;
-import com.eteks.test.StaircaseDesignUI;
+import com.eteks.Staircase_Constructor.Staircase.Flight;
+import com.eteks.Staircase_Constructor.Staircase.Step;
+import com.eteks.Staircase_Constructor.StaircaseDesignUI;
+import java.util.logging.Logger;
 
 // NOTE: All dimension are in centimeters
 
@@ -32,7 +33,11 @@ public class CreateStairs extends Plugin {
 			// initialise staircase with building code values and selected home level height
 			Home home = getHome();
 			Level level = home.getSelectedLevel();
-			staircase = new Staircase(bCode, level.getFloorThickness() + level.getHeight());
+                        try {
+                            staircase = new Staircase(bCode, level.getFloorThickness() + level.getHeight());
+                        } catch (Exception ex) {
+                            Logger.getLogger(CreateStairs.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                        }
 
 			// present user with staircase construction panel
 			staircaseDesign();

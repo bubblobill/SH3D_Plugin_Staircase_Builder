@@ -1,4 +1,4 @@
-package com.eteks.test;
+package com.eteks.Staircase_Constructor;
 // Class holds the requirements and restrictions guiding stair design
 abstract interface BuildingCode {
 	public int minRisersPerFlight = 2;

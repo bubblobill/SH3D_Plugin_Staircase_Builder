@@ -1,4 +1,4 @@
-package com.eteks.test;
+package com.eteks.Staircase_Constructor;
 
 public class BuildingCode_AU implements BuildingCode{
 	// Values related to Australian Standards for stairs
