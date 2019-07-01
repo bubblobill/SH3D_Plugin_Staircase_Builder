@@ -118,21 +118,28 @@ public class Staircase {
 
 	public Staircase(BuildingCode bCode, double rise) {
 		
+		final double minRising =  bCode.minRising;
+		final double maxRising =  bCode.maxRising;
+		final int maxRisersPerFlight =  bCode.maxRisersPerFlight;
+		final double minGoing =  bCode.minGoing;
+		final double maxGoing =  bCode.maxGoing;
+		final double minWidth =  bCode.minWidth;
+		final double minLanding =  bCode.minLanding;
 		int stepCount;
 		int minSteps;
 		
-		double maxSteps = Math.ceil(rise / bCode.minRising);
-		stepCount = minSteps = (int) Math.ceil(rise / bCode.maxRising);
-		int minFlights = (int) Math.ceil(minSteps / bCode.maxRisersPerFlight);
+		int maxSteps = (int) Math.ceil(rise / minRising);
+		stepCount = minSteps = (int) Math.ceil(rise / maxRising);
+		int minFlights = (int) Math.ceil(minSteps / maxRisersPerFlight);
 
 		int[] stepsPerFlight=new int[minFlights];
-		boolean[] landingsRequired=new boolean[minFlights];
+		boolean[] landingsRequired=new boolean[minFlights]; 
 
 		if (minFlights>1) {
 			//TODO: distribute steps between flights evenly
 			for (int x = 0; x < minFlights; x++){
-				stepsPerFlight[x] = stepCount >= bCode.maxRisersPerFlight ? bCode.maxRisersPerFlight : stepCount;
-				stepCount -= bCode.maxRisersPerFlight;
+				stepsPerFlight[x] = stepCount >= maxRisersPerFlight ? maxRisersPerFlight : stepCount;
+				stepCount -= maxRisersPerFlight;
 				landingsRequired[x] = true;
 			}
 		} else {
@@ -141,10 +148,10 @@ public class Staircase {
 		landingsRequired[minFlights] = false; // remove landing from last flight
 
 		Step step = new Step();
-		step.going = (bCode.minGoing + bCode.maxGoing)/2;
-		step.rising = bCode.maxRising;
+		step.going = (minGoing + maxGoing)/2;
+		step.rising = maxRising;
 		step.height = 3.5;
-		step.width = bCode.minWidth;
+		step.width = minWidth;
 		step.nosing = 0;
 		step.gap = 0;
 
@@ -156,14 +163,14 @@ public class Staircase {
 			}
 			Flight flight = new Flight();
 			flight.rise=stepsPerFlight[i]*step.rising;
-			flight.run= landingsRequired[i] ? stepsPerFlight[i]*step.going + bCode.minLanding: stepsPerFlight[i]*step.going ;
+			flight.run= landingsRequired[i] ? stepsPerFlight[i]*step.going + minLanding: stepsPerFlight[i]*step.going ;
 			flight.includeTopStep = true;
 			flight.steps = flightsteps;
 			flight.landing = new Landing();
 			if(landingsRequired[i]) {				
 				flight.landing.angle=90;
 				flight.landing.fascia=30;
-				flight.landing.length=bCode.minLanding;
+				flight.landing.length=minLanding;
 				flight.landing.quarterLanding=true;
 			}
 			//TODO: convert these placeholders into smarter versions

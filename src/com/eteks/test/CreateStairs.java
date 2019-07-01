@@ -1,11 +1,5 @@
 package com.eteks.test;
 
-import java.util.Arrays;
-import java.util.ResourceBundle;
-
-import javax.swing.undo.AbstractUndoableEdit;
-import javax.swing.undo.UndoableEditSupport;
-
 import com.eteks.sweethome3d.model.Home;
 import com.eteks.sweethome3d.model.Level;
 import com.eteks.sweethome3d.model.PieceOfFurniture;
@@ -79,7 +73,7 @@ public class CreateStairs extends Plugin {
 		}
 
 		private void setBuildingCode() {
-			// TODO: check locale somehow and set bCode according to code
+			// TODO: check locale and set bCode according to code
 			// BuildingCode_AU requires flags be set
 			// bCode = (BuildingCode) new BuildingCode_AU();
 			// TODO: input values for accessibleStair, requiredStair, infreqNonHabitable, &

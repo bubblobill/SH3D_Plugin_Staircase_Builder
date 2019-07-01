@@ -1,6 +1,6 @@
 package com.eteks.test;
 // Class holds the requirements and restrictions guiding stair design
-public interface BuildingCode {
+abstract interface BuildingCode {
 	public int minRisersPerFlight = 2;
 	public int maxRisersPerFlight = 18;
 	public int maxRisersInLine = 36;
