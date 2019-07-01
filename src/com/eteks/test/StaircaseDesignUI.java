@@ -52,7 +52,20 @@ public class StaircaseDesignUI {
   }
 }
 */
- 
+import javafx.*;
+import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.geometry.*;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
  
 public class StaircaseDesignUI extends Application {
@@ -60,8 +73,7 @@ public class StaircaseDesignUI extends Application {
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Staircase Constructor");
-        Scene scene = new Scene(grid, 300, 275);
-        primaryStage.setScene(scene);
+        
 
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
@@ -69,6 +81,9 @@ public class StaircaseDesignUI extends Application {
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
 
+        Scene scene = new Scene(grid, 300, 275);
+        primaryStage.setScene(scene);
+        
         Text scenetitle = new Text("Build your staircase");
         scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 14));
         grid.add(scenetitle, 0, 0, 2, 1);
