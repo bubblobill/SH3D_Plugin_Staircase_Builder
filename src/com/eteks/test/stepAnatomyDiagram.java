@@ -130,7 +130,7 @@ public class stepAnatomyDiagram extends Frame {
     		stepThickness);
     // second going
     g2d.setStroke(defaultStroke);
-    g2d.setColor(Color.red);
+    g2d.setColor(Color.black);
     g2d.drawRect(
     		hoffset + treadGap + treadGap + treadDepth, 
     		voffset + stepThickness + rising, 
@@ -148,6 +148,7 @@ public class stepAnatomyDiagram extends Frame {
     		arcSize, 
     		90, 
     		-180);
+    g2d.setColor(Color.red);
     // angle line
     g2d.drawArc(
     		hoffset + treadGap + treadDepth + nosing -40, 
@@ -170,17 +171,8 @@ public class stepAnatomyDiagram extends Frame {
     
     g2d.setStroke(defaultStroke);
     
-    g2d.drawString("Tread Depth", 80,45);
-    g2d.drawString("Nosing", 220,80);
-    g2d.drawString("Going", 300,140);
-    
-    AffineTransform old = g2d.getTransform();
-    Font oldFont = g2d.getFont();
-    Font newFont = oldFont.deriveFont(AffineTransform.getRotateInstance(Math.toRadians(90))); 
-    g2d.setFont(newFont);
-    g2d.drawString("Tread Gap",240,240);
-    g2d.drawString("Rising", 250,200);
-    g2d.setFont(oldFont);
-    
+    //g2d.drawString("Tread Depth", 80,45);
+    //g2d.drawString("Nosing", 220,80);
+    //g2d.drawString("Going", 300,140);    
   }
 }
