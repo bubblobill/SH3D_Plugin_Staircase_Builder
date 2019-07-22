@@ -1,0 +1,13 @@
+# Blender MTL File: 'step.blend'
+# Material Count: 1
+
+newmtl Wood
+Ns 86.274510
+Ka 1.000000 1.000000 1.000000
+Kd 0.291446 0.236585 0.171238
+Ks 0.293483 0.205978 0.161877
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd C:\\Users\\Strat\\Pictures\\jarrah.bmp
