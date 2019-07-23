@@ -1,8 +1,9 @@
 package building_codes;
 
+import java.io.Serializable;
+
 import staircase.Profile;
 import staircase.RiserStyle;
-import java.io.Serializable;
 /*
 Holds the requirements and limitations for building staircases
 Default values are from the Australian building code.

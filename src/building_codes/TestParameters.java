@@ -1,6 +1,7 @@
 package building_codes;
 
 import java.io.Serializable;
+
 import staircase.Step;
 
 public abstract class TestParameters extends BuildParameters implements Serializable {

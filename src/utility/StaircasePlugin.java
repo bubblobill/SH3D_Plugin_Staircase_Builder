@@ -1,16 +1,21 @@
 package utility;
 
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import java.util.ArrayList;
-import java.util.List;
+
+import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import com.eteks.sweethome3d.model.Home;
 import com.eteks.sweethome3d.model.Level;
@@ -19,10 +24,12 @@ import com.eteks.sweethome3d.plugin.PluginAction;
 
 import building_codes.BuildParameters;
 import building_codes.BuildingCode;
+import building_codes.BuildingCodeList;
 import building_codes.BuildingCode_AU;
 import building_codes.BuildingCode_Default;
-import building_codes.BuildingCodeList;
+
 public class StaircasePlugin extends Plugin {
+	
 	public class StaircaseAction extends PluginAction {
 		//------------------------------------------------------------------------------
 		// Put plug-in in tools menu
@@ -34,14 +41,7 @@ public class StaircasePlugin extends Plugin {
 		//------------------------------------------------------------------------------
 		//
 		Home home = getHome();		
-		JButton okay;
-		JButton cancel;
-		List<JCheckBox> cbarr = new ArrayList<JCheckBox>();
-		public List<java.awt.Checkbox> checkboxes;
-		String[] labels = new String[10];
-    	Boolean[] states = new Boolean[10];
-    	Boolean[] visibility = new Boolean[10];
-		
+		public ArrayList<Level> levels = new ArrayList<>();
     	public BuildingCode bCode; // Building code requirements, varies by location, set in setBuildingCode
 		public BuildParameters bParam = new BuildParameters(); // Build parameters, resulting from limitations set by building code and user selections
     	public Staircase staircase; // Defines the actual staircase
@@ -50,14 +50,16 @@ public class StaircasePlugin extends Plugin {
 		// main procedure
 		@Override
 		public void execute() {
+			 //bCode = new BuildingCode();
 			// prompt for building code to use
 			selectBuildingCode();
 			// initialise build parameters
 			bParam = new BuildParameters(bCode);
 						
 			// select levels to contain staircase
-			runUI("levelSelect");
-			runUI("stepSetup");
+			selectLevels();
+			
+			// runUI("stepSetup");
 			
 		}
 		
@@ -65,55 +67,98 @@ public class StaircasePlugin extends Plugin {
 		// UI switchboard
 		public void runUI(String whichUI) {
 			switch (whichUI) {
-			case "levelSelect":
-				//	LevelSelect.main(null);
-				setArrays();
-				System.out.println(states[0]);
-				LevelSelect.levelSelectUI(labels, states, visibility);
-				System.out.println(states[0]);
-				break;
 			case "stepSetup":
 				StepSetUpUI.main(null);
 			default:
 			}
 		}
 		//------------------------------------------------------------------------------		
-		private void setArrays() {
-			// labels states visibility
-			for (int i = 0; i < 10; i++) {
-				labels[i] = "noLevel";
-				states[i] = false;
-				visibility[i] = false;
+		private void setLevels() {
+			try {
+				levels = new ArrayList<>(getHome().getLevels());
+			} catch (Exception e) {
+				try {
+				levels.add(getHome().getSelectedLevel());
+				} catch (Exception ex){
+				Level level = new Level("Level 0", 0, getUserPreferences().getNewFloorThickness() ,getUserPreferences().getNewWallHeight());
+				levels.add(level);
+				}
+			}
+			// remove levels with same elevation and height
+			if(levels.size()>1) {
+				for(int i=levels.size()-1; i>0; i--) {
+					if(levels.get(i).getElevation()==levels.get(i-1).getElevation() &&
+							levels.get(i).getHeight()==levels.get(i-1).getHeight()) {
+						levels.remove(i);
+						}
+				}
+			}
+		}
+		private void selectLevels() {
+			// set the levels available in the home
+			setLevels();
+			// select which levels will contain staircase
+			int levelStart = 0;
+			int levelStop = levels.size()-1;
+			
+			if (levels.size() > 2) {
+				JPanel layoutPanel = new JPanel(new GridLayout(2, 1));
+				JLabel label = new JLabel("Please select which levels will contain the staircase");
+				label.setToolTipText(
+						"<html>"
+						+ "These are the levels through which the staircase will travel.<br>"
+						+ "A two storey dwelling typically has a staircase that spans the first storey.<br>"
+						+ "Do not include the level on which the staircase ends unless it will access the level above.</html>");
+				layoutPanel.add(label);
+				
+				JPanel sliderPanel = new JPanel(new GridBagLayout());
+					sliderPanel.setBorder(BorderFactory.createEmptyBorder(6, 6, 6, 6));
+					JLabel rangeSliderLabel1 = new JLabel("Lowest level:  ");
+				    JLabel rangeSliderValue1 = new JLabel(String.valueOf(levelStart));
+				    JLabel rangeSliderLabel2 = new JLabel("Highest level: ");
+				    JLabel rangeSliderValue2 = new JLabel(String.valueOf(levelStop));
+				    RangeSlider rangeSlider = new RangeSlider(levelStart, levelStop);
+			        rangeSliderValue1.setHorizontalAlignment(JLabel.LEFT);
+			        rangeSliderValue2.setHorizontalAlignment(JLabel.LEFT);
+			        
+			        rangeSlider.setPreferredSize(new Dimension(240, rangeSlider.getPreferredSize().height));
+			        rangeSlider.setMinimum(levelStart);
+			        rangeSlider.setMaximum(levelStop);
+			        rangeSlider.setUpperValue(levelStop-1);
+			        rangeSlider.setValue(levelStart);
+			        
+			        // Add listener to update display.
+			        rangeSlider.addChangeListener(new ChangeListener() {
+			        	@Override
+			        	public void stateChanged(ChangeEvent e) {
+			            	RangeSlider slider = (RangeSlider) e.getSource();
+			                rangeSliderValue1.setText(String.valueOf(slider.getValue()));
+			                rangeSliderValue2.setText(String.valueOf(slider.getUpperValue()));
+			            }
+			        });
+
+			        sliderPanel.add(rangeSliderLabel1, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
+			            GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(0, 0, 3, 3), 0, 0));
+			        sliderPanel.add(rangeSliderValue1, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
+			            GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(0, 0, 3, 0), 0, 0));
+			        sliderPanel.add(rangeSliderLabel2, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
+			            GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(0, 0, 3, 3), 0, 0));
+			        sliderPanel.add(rangeSliderValue2, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
+			            GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(0, 0, 6, 0), 0, 0));
+			        sliderPanel.add(rangeSlider      , new GridBagConstraints(0, 2, 2, 1, 0.0, 0.0,
+			            GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+				layoutPanel.add(sliderPanel);
+				
+
+				JOptionPane.showConfirmDialog(null, layoutPanel, "Level Selector", JOptionPane.OK_OPTION);
+				
+				levelStart=rangeSlider.getValue();
+                levelStop=rangeSlider.getUpperValue();
 			}
 			
-			for (int i = 0; i < 10; i++) {
-				try {
-					Level level = getHome().getLevels().get(i);
-					labels[i] = level.getName() + "\t (height=" + level.getHeight() + " elevation="
-							+ level.getElevation() + ")";
-					states[i] = i == 0 || i < getHome().getLevels().size() - 1;
-					visibility[i] = i == 0 || i < getHome().getLevels().size();
-				} catch (Exception e) {
-					if (i == 0) {
-						Level level = getHome().getSelectedLevel();
-						if (level != null) {
-							labels[i] = level.getName() + "\t (height=" + level.getHeight() + " elevation="
-									+ level.getElevation() + ")";
-							states[i] = true;
-							visibility[i] = true;
-						} else {
-							labels[i] = "Level 0\t (height=" + (int) getUserPreferences().getNewWallHeight()
-									+ " elevation=0.00)";
-							states[i] = true;
-							visibility[i] = true;
-						}
-					} else {
-						labels[i] = "";
-						states[i] = false;
-						visibility[i] = false;
-					}
-				} 
-			}
+			bParam.setHeight(levels.get(levelStop).getHeight()
+					+ levels.get(levelStop).getElevation()
+					- levels.get(levelStart).getElevation());
 		}
 		//------------------------------------------------------------------------------
 		private void setBuildingCode() {
@@ -125,11 +170,11 @@ public class StaircasePlugin extends Plugin {
 			// Call direct to manually override the country building code selection if desired
 			switch (country) {
 				case "AU": {
-					bCode = (BuildingCode_AU) bCode;
+					bCode = new BuildingCode_AU();
 					break;
 				}
 				default: {
-					bCode = (BuildingCode_Default) bCode;
+					bCode = new BuildingCode_Default();
 					String message = "No construction code found for your region.\nUsing default building code";
 					JOptionPane.showMessageDialog(new JFrame(), message, "No Building Code Found", JOptionPane.INFORMATION_MESSAGE);
 				}
@@ -191,9 +236,6 @@ public class StaircasePlugin extends Plugin {
 				}
 			}
 		}
-	
-	
-			
 	}
 	//------------------------------------------------------------------------------
 	@Override

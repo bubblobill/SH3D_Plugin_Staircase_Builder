@@ -100,7 +100,6 @@ public class BuildingCode_AU extends BuildingCode {
 	}
 	@Override
 	public  void setConditionalFlags() {
-		// placeholder to be overridden in building codes with conditional flags
 		setAccessibleStair(conditionalFlagFields[0]);
 		setRequiredStair(conditionalFlagFields[1]);
 		setInfreqNonHabitable(conditionalFlagFields[2]);

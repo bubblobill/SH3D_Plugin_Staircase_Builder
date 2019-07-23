@@ -1,5 +1,5 @@
 package utility;
-
+import staircase.Profile;
 import java.util.ArrayList;
 import java.util.List;
 

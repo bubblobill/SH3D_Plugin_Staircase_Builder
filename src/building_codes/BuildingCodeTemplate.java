@@ -1,5 +1,6 @@
 package building_codes;
 import java.awt.GridLayout;
+
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -9,7 +10,7 @@ Holds the requirements and limitations for building staircases
 Default values are from the Australian building code.
 */
 public abstract class BuildingCodeTemplate {
-	public boolean 	hasConditionalFields = true		; // allows implementing flags to set conditional values
+	public boolean 	hasConditionalFields = false	; // allows implementing flags to set conditional values
 	public boolean[] conditionalFlagFields = null	; // names of additional fields that require user interaction
 	public String[] conditionalFieldPrompts = null	; // text prompts for conditional fields
 	

@@ -17,7 +17,7 @@ public class Staircase {
 		int stepCount;
 		int minSteps;
 		
-		double maxSteps = Math.ceil(rise / bCode.getMinRising());
+		//double maxSteps = Math.ceil(rise / bCode.getMinRising());
 		stepCount = minSteps = (int) Math.ceil(rise / bCode.getMaxRising());
 		int minFlights = (int) Math.ceil((double)minSteps / bCode.getMaxRisersPerFlight());
 		System.out.println("stepCount"+stepCount+ "minSteps"+minSteps);
